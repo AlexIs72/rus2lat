@@ -14,10 +14,12 @@
         android:layout_marginTop="56dp"
         android:background="@android:drawable/editbox_background_normal"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:inputType="text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" >
+        <requestFocus />
+    </EditText>
 
     <EditText
         android:id="@+id/translatedText"
@@ -28,7 +30,7 @@
         android:editable="false"
         android:ems="10"
         android:enabled="false"
-        android:inputType="textPersonName"
+        android:inputType="text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -38,11 +40,12 @@
         android:layout_width="200dp"
         android:layout_height="40dp"
         android:layout_marginTop="12dp"
+        android:onClick="onCopyBtn"
         android:text="Копировать"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/translatedText" />
-
+<!--
     <TextView
         android:id="@+id/textView"
         android:layout_width="260dp"
@@ -80,13 +83,14 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/copyBtn" />
-
-    <ListView
+-->
+<!--    <ListView
+        android:id="@+id/historyList"
         android:layout_width="343dp"
         android:layout_height="491dp"
         android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
-
+-->
 </androidx.constraintlayout.widget.ConstraintLayout>
