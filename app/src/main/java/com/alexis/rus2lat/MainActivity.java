@@ -11,20 +11,35 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity /*implements View.OnFocusChangeListener*/ {
 
     private EditText mInputText;
     private EditText mTranslatedText;
+    private ListView m_historyList;
     private Button mCopyButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        String[] names = { "Иван", "Марья", "Петр", "Антон", "Даша", "Борис",
+                "Костя", "Игорь", "Анна", "Денис", "Андрей" };
+
+        m_historyList = findViewById(R.id.historyList);
+
+// создаем адаптер
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, names);
+
+        // присваиваем адаптер списку
+        m_historyList.setAdapter(adapter);
 
         mCopyButton = findViewById(R.id.copyBtn);
         mCopyButton.requestFocus();
@@ -66,6 +81,7 @@ public class MainActivity extends Activity /*implements View.OnFocusChangeListen
 
     public void onCopyBtn(View v)
     {
+        copyToClipboard(getApplicationContext(), mTranslatedText.getText().toString());
         copyDone();
     }
 
@@ -96,5 +112,27 @@ public class MainActivity extends Activity /*implements View.OnFocusChangeListen
     {
         Toast toast = Toast.makeText(getApplicationContext(),"Скопировано в буфер обмена", Toast.LENGTH_SHORT);
         toast.show();
+    }
+
+    private boolean copyToClipboard(Context context, String text) {
+        try {
+            int sdk = android.os.Build.VERSION.SDK_INT;
+            if (sdk < android.os.Build.VERSION_CODES.HONEYCOMB) {
+                android.text.ClipboardManager clipboard = (android.text.ClipboardManager) context
+                        .getSystemService(context.CLIPBOARD_SERVICE);
+                clipboard.setText(text);
+            } else {
+                android.content.ClipboardManager clipboard = (android.content.ClipboardManager) context
+                        .getSystemService(context.CLIPBOARD_SERVICE);
+                android.content.ClipData clip = android.content.ClipData
+                        .newPlainText(
+                                /*context.getResources().getString(
+                                        R.string.message)*/"rus2lat", text);
+                clipboard.setPrimaryClip(clip);
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
